@@ -1,6 +1,7 @@
+import { ChainChecker, ChainSelect } from '@/components/chain-select'
+import { ConnectWalletMenu } from '@/components/wallet'
 import Link from 'next/link'
 import { ReactNode } from 'react'
-
 import { ThemeProvider } from './theme-provider'
 import { ThemeToggle } from './theme-toggle'
 import { Button } from './ui/button'
@@ -12,9 +13,10 @@ export function AppLayout({ children, links }: { children: ReactNode; links: { l
       <div className="flex flex-col min-h-screen">
         <AppHeader links={links} />
         <main className="flex-grow container mx-auto p-4">
-          {/*<ChainChecker>*/}
-          {/*  <AccountChecker />*/}
-          {/*</ChainChecker>*/}
+          <ChainChecker>
+            <div />
+            {/*  <AccountChecker />*/}
+          </ChainChecker>
 
           {children}
         </main>
@@ -45,8 +47,8 @@ export function AppHeader({ links = [] }: { links: { label: string; path: string
           </ul>
         </div>
         <div className="flex items-center gap-4">
-          {/*<ConnectWalletMenu>Connect Wallet</ConnectWalletMenu>*/}
-          {/*<ChainSelect />*/}
+          <ConnectWalletMenu>Connect Wallet</ConnectWalletMenu>
+          <ChainSelect />
           <ThemeToggle />
         </div>
       </div>

@@ -1,4 +1,6 @@
 import { AppLayout } from '@/components/app-layout'
+import { ReactQueryProvider } from '@/components/react-query-provider'
+import { SolanaProvider } from '@/components/solana'
 import type { Metadata } from 'next'
 import './globals.css'
 
@@ -19,7 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <AppLayout links={links}>{children}</AppLayout>
+        <ReactQueryProvider>
+          <SolanaProvider>
+            <AppLayout links={links}>{children}</AppLayout>
+          </SolanaProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   )
