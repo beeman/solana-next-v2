@@ -1,13 +1,13 @@
 'use client'
 
-import { ReactNode, useMemo, useState } from 'react'
-
+import { ReactNode, useMemo } from 'react'
+import { useLocalStorage } from '../use-local-storage'
 import { SolanaChain, SolanaChainContext } from './solana-chain-context'
 
-const STORAGE_KEY = 'solana-example-react-app:selected-chain'
+const STORAGE_KEY = 'placeholder:selected-chain'
 
 export function SolanaChainProvider({ chains, children }: { chains: SolanaChain[]; children: ReactNode }) {
-  const [chainId, setChainId] = useState(() => localStorage.getItem(STORAGE_KEY) ?? chains[0].chain)
+  const [chainId, setChainId] = useLocalStorage(STORAGE_KEY, 'solana:devnet')
 
   if (!chains.length) {
     throw new Error('No chains provided')

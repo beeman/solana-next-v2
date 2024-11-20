@@ -1,5 +1,6 @@
 'use client'
 
+import { useLocalStorage } from '@/components/use-local-storage'
 import {
   getUiWalletAccountStorageKey,
   UiWallet,
@@ -11,17 +12,19 @@ import {
 import { Dispatch, ReactNode, SetStateAction, useEffect, useMemo, useState } from 'react'
 import { SelectedWalletAccountState, SolanaWalletContext } from './solana-wallet-context'
 
-const STORAGE_KEY = 'solana-wallet-standard-example-react:selected-wallet-and-address'
+const STORAGE_KEY = 'placeholder:selected-wallet-and-address'
 
 let wasSetterInvoked = false
 
-function getSavedWalletAccount(wallets: readonly UiWallet[]): UiWalletAccount | undefined {
+function getSavedWalletAccount(
+  wallets: readonly UiWallet[],
+  savedWalletNameAndAddress: string | null,
+): UiWalletAccount | undefined {
   if (wasSetterInvoked) {
     // After the user makes an explicit choice of wallet, stop trying to auto-select the
     // saved wallet, if and when it appears.
     return
   }
-  const savedWalletNameAndAddress = localStorage.getItem(STORAGE_KEY)
   if (!savedWalletNameAndAddress || typeof savedWalletNameAndAddress !== 'string') {
     return
   }
@@ -46,9 +49,10 @@ function getSavedWalletAccount(wallets: readonly UiWallet[]): UiWalletAccount | 
  * wallet if the wallet from which it came is still in the Wallet Standard registry.
  */
 export function SolanaWalletProvider({ children }: { children: ReactNode }) {
+  const [storedKey, setStoredKey] = useLocalStorage<string | null>(STORAGE_KEY, null)
   const wallets = useWallets()
   const [selectedWalletAccount, setSelectedWalletAccountInternal] = useState<SelectedWalletAccountState>(() =>
-    getSavedWalletAccount(wallets),
+    getSavedWalletAccount(wallets, storedKey),
   )
   const setSelectedWalletAccount: Dispatch<SetStateAction<SelectedWalletAccountState>> = (setStateAction) => {
     setSelectedWalletAccountInternal((prevSelectedWalletAccount) => {
@@ -57,15 +61,15 @@ export function SolanaWalletProvider({ children }: { children: ReactNode }) {
         typeof setStateAction === 'function' ? setStateAction(prevSelectedWalletAccount) : setStateAction
       const accountKey = nextWalletAccount ? getUiWalletAccountStorageKey(nextWalletAccount) : undefined
       if (accountKey) {
-        localStorage.setItem(STORAGE_KEY, accountKey)
+        setStoredKey(accountKey)
       } else {
-        localStorage.removeItem(STORAGE_KEY)
+        setStoredKey(null)
       }
       return nextWalletAccount
     })
   }
   useEffect(() => {
-    const savedWalletAccount = getSavedWalletAccount(wallets)
+    const savedWalletAccount = getSavedWalletAccount(wallets, storedKey)
     if (savedWalletAccount) {
       setSelectedWalletAccountInternal(savedWalletAccount)
     }
