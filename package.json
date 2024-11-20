@@ -43,5 +43,15 @@
     "prettier": "^3.3.3",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
+  },
+  "create-solana-dapp": {
+    "rename": {
+      "placeholder": {
+        "to": "{{name}}",
+        "paths": [
+          "."
+        ]
+      }
+    }
   }
 }
