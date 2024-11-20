@@ -59,7 +59,9 @@ export function ChainSelect() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="sm">{chain.displayName}</Button>
+        <Button variant="outline" size="sm">
+          {chain.displayName}
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {chains.map((item) => (
