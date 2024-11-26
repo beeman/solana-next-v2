@@ -13,7 +13,7 @@ export function WalletMenuItemContent({ children, loading, wallet }: Props) {
     return (
         <div className="flex items-center gap-2 w-full">
             <div className={cn("relative", loading && "animate-pulse")}>
-                <Avatar className="h-[18px] w-[18px]">
+                <Avatar className="h-[24px] w-[24px] rounded-sm">
                     <AvatarImage src={wallet.icon} alt={wallet.name} />
                     <AvatarFallback className="text-xs">
                         {wallet.name.slice(0, 1)}

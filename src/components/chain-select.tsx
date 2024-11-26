@@ -1,10 +1,9 @@
 'use client'
 
-import { useSolanaChain } from '@/components/solana/solana-chain-context'
-import { useSolanaRpc } from '@/components/solana/solana-rpc-context'
 import { Alert } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
+import { useSolanaChain, useSolanaRpc } from '@/solana'
 import { useQuery } from '@tanstack/react-query'
 import { ReactNode } from 'react'
 
@@ -59,13 +58,11 @@ export function ChainSelect() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm">
-          {chain.displayName}
-        </Button>
+        <Button variant="outline">{chain.displayName}</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {chains.map((item) => (
-          <DropdownMenuItem key={item.chain} onClick={() => setChain(item.chain)}>
+          <DropdownMenuItem key={item.id} onClick={() => setChain(item.id)}>
             {item.displayName}
           </DropdownMenuItem>
         ))}

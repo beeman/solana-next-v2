@@ -2,11 +2,11 @@
 
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu'
 import type { UiWallet } from '@wallet-standard/react'
-import { TriangleAlert } from 'lucide-react'
+import { TriangleAlertIcon } from 'lucide-react'
 import { useState } from 'react'
 
-import { ErrorDialog } from './ErrorDialog'
-import { WalletMenuItemContent } from './WalletMenuItemContent'
+import { WalletErrorDialog } from './wallet-error-dialog'
+import { WalletMenuItemContent } from './wallet-menu-item-content'
 
 type Props = Readonly<{
   error: unknown
@@ -21,12 +21,12 @@ export function UnconnectableWalletMenuItem({ error, wallet }: Props) {
       <DropdownMenuItem disabled onClick={() => setDialogIsOpen(true)} className="opacity-50">
         <WalletMenuItemContent wallet={wallet}>
           <span className="line-through">{wallet.name}</span>
-          <TriangleAlert className="ml-auto h-4 w-4 shrink-0" />
+          <TriangleAlertIcon className="ml-auto h-4 w-4 shrink-0" />
         </WalletMenuItemContent>
       </DropdownMenuItem>
 
       {dialogIsOpen && (
-        <ErrorDialog error={error} onClose={() => setDialogIsOpen(false)} title="Unconnectable wallet" />
+        <WalletErrorDialog error={error} onClose={() => setDialogIsOpen(false)} title="Unconnectable wallet" />
       )}
     </>
   )

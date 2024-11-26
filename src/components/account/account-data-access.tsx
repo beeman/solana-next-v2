@@ -1,7 +1,6 @@
 'use client'
 
-import { useSolanaChain } from '@/components/solana/solana-chain-context'
-import { useSolanaRpc } from '@/components/solana/solana-rpc-context'
+import { useSolanaChain, useSolanaRpc } from '@/solana'
 import { TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
 import { TOKEN_2022_PROGRAM_ADDRESS } from '@solana-program/token-2022'
 import { Address, airdropFactory, lamports } from '@solana/web3.js'

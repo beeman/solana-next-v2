@@ -1,8 +1,8 @@
 'use client'
 
 import { AppHero } from '@/components/app-layout'
-import { useSolanaWallet } from '@/components/solana/solana-wallet-context'
 import { ConnectWalletMenu } from '@/components/wallet'
+import { useSolanaWallet } from '@/solana'
 
 import { redirect } from 'next/navigation'
 

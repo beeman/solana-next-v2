@@ -4,7 +4,7 @@ import { ClusterUrl, devnet, testnet } from '@solana/web3.js'
 import { createContext, useContext } from 'react'
 
 export type SolanaChain = Readonly<{
-  chain: `solana:${string}`
+  id: `solana:${string}`
   displayName: string
   solanaExplorerClusterName: 'devnet' | 'custom' | 'mainnet-beta' | 'testnet'
   solanaRpcSubscriptionsUrl: ClusterUrl
@@ -18,21 +18,21 @@ export type SolanaChainContextProps = Readonly<{
 }>
 
 export const CHAIN_CONFIG_DEVNET: SolanaChain = Object.freeze({
-  chain: 'solana:devnet',
+  id: 'solana:devnet',
   displayName: 'Devnet',
   solanaExplorerClusterName: 'devnet',
   solanaRpcSubscriptionsUrl: devnet('wss://api.devnet.solana.com'),
   solanaRpcUrl: devnet('https://api.devnet.solana.com'),
 })
 export const CHAIN_CONFIG_LOCAL: SolanaChain = Object.freeze({
-  chain: 'solana:local',
+  id: 'solana:local',
   displayName: 'Local',
   solanaExplorerClusterName: 'custom',
   solanaRpcSubscriptionsUrl: 'ws://localhost:8900',
   solanaRpcUrl: 'http://localhost:8899',
 })
 export const CHAIN_CONFIG_TESTNET: SolanaChain = Object.freeze({
-  chain: 'solana:testnet',
+  id: 'solana:testnet',
   displayName: 'Testnet',
   solanaExplorerClusterName: 'testnet',
   solanaRpcSubscriptionsUrl: testnet('wss://api.testnet.solana.com'),

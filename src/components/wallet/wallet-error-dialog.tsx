@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { getErrorMessage } from "../errors";
+import { getWalletErrorMessage } from "./get-wallet-error-message";
 
 type Props = Readonly<{
   error: unknown;
@@ -19,7 +19,7 @@ type Props = Readonly<{
   title?: string;
 }>;
 
-export function ErrorDialog({ error, onClose, title }: Props) {
+export function WalletErrorDialog({ error, onClose, title }: Props) {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
@@ -39,7 +39,7 @@ export function ErrorDialog({ error, onClose, title }: Props) {
             {title ?? "We encountered the following error"}
           </AlertDialogTitle>
           <AlertDialogDescription className="mt-2 rounded-lg border border-muted bg-muted/50 p-4">
-            {getErrorMessage(error, "Unknown")}
+            {getWalletErrorMessage(error, "Unknown")}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

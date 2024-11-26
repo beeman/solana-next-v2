@@ -1,6 +1,6 @@
 import { AppLayout } from '@/components/app-layout'
 import { ReactQueryProvider } from '@/components/react-query-provider'
-import { SolanaProvider } from '@/components/solana'
+import { CHAIN_CONFIG_DEVNET, CHAIN_CONFIG_LOCAL, CHAIN_CONFIG_TESTNET, SolanaProvider } from '@/solana'
 import type { Metadata } from 'next'
 import './globals.css'
 
@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <ReactQueryProvider>
-          <SolanaProvider>
+          <SolanaProvider chains={[CHAIN_CONFIG_DEVNET, CHAIN_CONFIG_LOCAL, CHAIN_CONFIG_TESTNET]}>
             <AppLayout links={links}>{children}</AppLayout>
           </SolanaProvider>
         </ReactQueryProvider>

@@ -3,12 +3,11 @@
 import { AppModal } from '@/components/app-layout'
 import { ExplorerLink } from '@/components/chain-select'
 import { ellipsify } from '@/components/ellipsify'
-import { useSolanaChain } from '@/components/solana/solana-chain-context'
-import { useSolanaWallet, useSolanaWalletAddress } from '@/components/solana/solana-wallet-context'
 import { Alert } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { useSolanaChain, useSolanaWallet, useSolanaWalletAddress } from '@/solana'
 import { Address, address as addressUtil } from '@solana/web3.js'
 import { useQueryClient } from '@tanstack/react-query'
 import { RefreshCw } from 'lucide-react'
@@ -67,7 +66,7 @@ export function AccountBalanceCheck({ address }: { address: Address }) {
 
 export function AccountButtons({ address }: { address: Address }) {
   const { chain } = useSolanaChain()
-  const isMainnet = chain.chain === 'solana:mainnet'
+  const isMainnet = chain.id === 'solana:mainnet'
   const [airdropOpen, setAirdropOpen] = useState(false)
   const [receiveOpen, setReceiveOpen] = useState(false)
   const [sendOpen, setSendOpen] = useState(false)

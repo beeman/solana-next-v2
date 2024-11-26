@@ -1,7 +1,7 @@
 'use client'
 
 import { ReactNode, useMemo } from 'react'
-import { useLocalStorage } from '../use-local-storage'
+import { useLocalStorage } from '../components/use-local-storage'
 import { SolanaChain, SolanaChainContext } from './solana-chain-context'
 
 const STORAGE_KEY = 'placeholder:selected-chain'
@@ -15,7 +15,7 @@ export function SolanaChainProvider({ chains, children }: { chains: SolanaChain[
 
   const chain = useMemo<SolanaChain>(() => {
     for (const chain of chains) {
-      if (chain.chain === chainId) {
+      if (chain.id === chainId) {
         return chain
       }
     }
