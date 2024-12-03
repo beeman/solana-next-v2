@@ -1,10 +1,30 @@
 'use client'
 
-import { useSolanaChain, useSolanaRpc } from '@/solana'
+import { useToastError } from '@/hooks/use-toast-error'
+import { useToastTransaction } from '@/hooks/use-toast-transaction'
+import { SolanaRpc, useSolanaChain, useSolanaRpc } from '@/solana'
+import { getTransferSolInstruction } from '@solana-program/system'
 import { TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
 import { TOKEN_2022_PROGRAM_ADDRESS } from '@solana-program/token-2022'
-import { Address, airdropFactory, lamports } from '@solana/web3.js'
+import { useWalletAccountTransactionSendingSigner } from '@solana/react'
+import type { Blockhash } from '@solana/rpc-types'
+import { TransactionSendingSigner } from '@solana/signers'
+import {
+  address,
+  Address,
+  airdropFactory,
+  appendTransactionMessageInstruction,
+  assertIsTransactionMessageWithSingleSendingSigner,
+  createTransactionMessage,
+  getBase58Decoder,
+  lamports,
+  pipe,
+  setTransactionMessageFeePayerSigner,
+  setTransactionMessageLifetimeUsingBlockhash,
+  signAndSendTransactionMessageWithSigners,
+} from '@solana/web3.js'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { UiWalletAccount } from '@wallet-standard/react'
 
 export function useGetBalance({ address }: { address: Address }) {
   const { chain } = useSolanaChain()
@@ -58,46 +78,36 @@ export function useGetTokenAccounts({ address }: { address: Address }) {
   })
 }
 
-export function useTransferSol({ address }: { address: Address }) {
+export function useTransferSol({ address, account }: { address: Address; account: UiWalletAccount }) {
   const { chain } = useSolanaChain()
-
-  // const transactionToast = useTransactionToast()
-  // const wallet = useWallet()
+  const toastError = useToastError()
+  const toastTransaction = useToastTransaction()
+  const { rpc } = useSolanaRpc()
+  const txSigner = useWalletAccountTransactionSendingSigner(account, chain.id)
   const client = useQueryClient()
 
   return useMutation({
     mutationKey: ['transfer-sol', { chain, address }],
     mutationFn: async (input: { destination: Address; amount: number }) => {
-      console.log('transfer sol', input)
-      // let signature: TransactionSignature = ''
-      // try {
-      //   const { transaction, latestBlockhash } = await createTransaction({
-      //     publicKey: address,
-      //     destination: input.destination,
-      //     amount: input.amount,
-      //     connection,
-      //   })
-      //
-      //   // Send transaction and await for signature
-      //   signature = await wallet.sendTransaction(transaction, connection)
-      //
-      //   // Send transaction and await for signature
-      //   await connection.confirmTransaction({ signature, ...latestBlockhash }, 'confirmed')
-      //
-      //   console.log(signature)
-      //   return signature
-      // } catch (error: unknown) {
-      //   console.log('error', `Transaction failed! ${error}`, signature)
-      //
-      //   return
-      // }
-      return ''
+      try {
+        const { signature } = await createTransaction({
+          txSigner,
+          destination: input.destination,
+          amount: input.amount,
+          rpc,
+        })
+
+        console.log(signature)
+        return signature
+      } catch (error: unknown) {
+        console.log('error', `Transaction failed! ${error}`)
+
+        return
+      }
     },
     onSuccess: (signature) => {
-      if (signature.length) {
-        // FIXME: Enable toast
-        console.log('FIXME: toast signature link', signature)
-        // transactionToast(signature)
+      if (signature?.length) {
+        toastTransaction(signature)
       }
       return Promise.all([
         client.invalidateQueries({
@@ -109,22 +119,16 @@ export function useTransferSol({ address }: { address: Address }) {
       ])
     },
     onError: (error) => {
-      // FIXME: Enable toast
-      console.log(`FIXME: toast signature link: ${error}`)
-      // toast.error(`Transaction failed! ${error}`)
+      toastError(`Transaction failed! ${error}`)
     },
   })
 }
 
-//
-
 export function useRequestAirdrop({ address }: { address: Address }) {
   const { chain } = useSolanaChain()
   const { rpc, rpcSubscriptions } = useSolanaRpc()
-
-  // const transactionToast = useTransactionToast()
   const client = useQueryClient()
-
+  const toastTransaction = useToastTransaction()
   const airdrop = airdropFactory({ rpc, rpcSubscriptions })
 
   return useMutation({
@@ -136,8 +140,7 @@ export function useRequestAirdrop({ address }: { address: Address }) {
         lamports: lamports(BigInt(Math.round(amount * 1_000_000_000))),
       }),
     onSuccess: (signature) => {
-      console.log('FIXME: toast signature link', signature)
-      // transactionToast(signature)
+      toastTransaction(signature)
       return Promise.all([
         client.invalidateQueries({ queryKey: ['get-balance', { chain, address }] }),
         client.invalidateQueries({ queryKey: ['get-signatures', { chain, address }] }),
@@ -146,45 +149,45 @@ export function useRequestAirdrop({ address }: { address: Address }) {
   })
 }
 
-//
-// async function createTransaction({
-//   publicKey,
-//   destination,
-//   amount,
-//   connection,
-// }: {
-//   publicKey: Address
-//   destination: Address
-//   amount: number
-//   connection: Connection
-// }): Promise<{
-//   transaction: VersionedTransaction
-//   latestBlockhash: { blockhash: string; lastValidBlockHeight: number }
-// }> {
-//   // Get the latest blockhash to use in our transaction
-//   const latestBlockhash = await connection.getLatestBlockhash()
-//
-//   // Create instructions to send, in this case a simple transfer
-//   const instructions = [
-//     SystemProgram.transfer({
-//       fromPubkey: publicKey,
-//       toPubkey: destination,
-//       lamports: amount * LAMPORTS_PER_SOL,
-//     }),
-//   ]
-//
-//   // Create a new TransactionMessage with version and compile it to legacy
-//   const messageLegacy = new TransactionMessage({
-//     payerKey: publicKey,
-//     recentBlockhash: latestBlockhash.blockhash,
-//     instructions,
-//   }).compileToLegacyMessage()
-//
-//   // Create a new VersionedTransaction which supports legacy and v0
-//   const transaction = new VersionedTransaction(messageLegacy)
-//
-//   return {
-//     transaction,
-//     latestBlockhash,
-//   }
-// }
+async function createTransaction({
+  amount,
+  destination,
+  rpc,
+  txSigner,
+}: {
+  amount: number
+  destination: Address
+  rpc: SolanaRpc
+  txSigner: TransactionSendingSigner
+}): Promise<{
+  signature: string
+  latestBlockhash: {
+    blockhash: Blockhash
+    lastValidBlockHeight: bigint
+  }
+}> {
+  const { value: latestBlockhash } = await rpc.getLatestBlockhash({ commitment: 'confirmed' }).send()
+
+  const message = pipe(
+    createTransactionMessage({ version: 0 }),
+    (m) => setTransactionMessageFeePayerSigner(txSigner, m),
+    (m) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, m),
+    (m) =>
+      appendTransactionMessageInstruction(
+        getTransferSolInstruction({
+          amount,
+          destination: address(destination),
+          source: txSigner,
+        }),
+        m,
+      ),
+  )
+  assertIsTransactionMessageWithSingleSendingSigner(message)
+
+  const signature = await signAndSendTransactionMessageWithSigners(message)
+
+  return {
+    signature: getBase58Decoder().decode(signature),
+    latestBlockhash,
+  }
+}

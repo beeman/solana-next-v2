@@ -32,12 +32,24 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: ^1.1.4
         version: 1.1.4(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@19.0.0-rc-66855b96-20241106(react@19.0.0-rc-66855b96-20241106))(react@19.0.0-rc-66855b96-20241106)
+      '@solana-program/system':
+        specifier: ^0.6.2
+        version: 0.6.2(@solana/web3.js@2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.6.3)(ws@8.18.0))
       '@solana-program/token':
         specifier: ^0.4.1
         version: 0.4.1(@solana/web3.js@2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.6.3)(ws@8.18.0))
       '@solana-program/token-2022':
         specifier: ^0.3.1
         version: 0.3.1(@solana/web3.js@2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.6.3)(ws@8.18.0))
+      '@solana/addresses':
+        specifier: ^2.0.0
+        version: 2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.6.3)
+      '@solana/react':
+        specifier: ^2.0.0
+        version: 2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(react@19.0.0-rc-66855b96-20241106)(typescript@5.6.3)
+      '@solana/rpc-types':
+        specifier: ^2.0.0
+        version: 2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.6.3)
       '@solana/web3.js':
         specifier: 2.0.0
         version: 2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.6.3)(ws@8.18.0)
@@ -738,6 +750,11 @@ packages:
   '@rushstack/eslint-patch@1.10.4':
     resolution: {integrity: sha512-WJgX9nzTqknM393q1QJDJmoW28kUfEnybeTfVNcNAPnIx210RXm2DiXiHzfNPJNIUUb1tJnz/l4QGtJ30PgWmA==}
 
+  '@solana-program/system@0.6.2':
+    resolution: {integrity: sha512-q0ZnylK+LISjuP2jH5GWV9IJPtpzQctj5KQwij9XCDRSGkcFr2fpqptNnVupTLQiNL6Q4c1OZuG8WBmyFXVXZw==}
+    peerDependencies:
+      '@solana/web3.js': ^2.0.0
+
   '@solana-program/token-2022@0.3.1':
     resolution: {integrity: sha512-ntbbDPJKYWrB/esH5qAM7o3tACOukTumhmVz2fJAI+wTq3kRWVmA2mMC0Ajv9lydQeSVItbTplZX5+R2iITwNA==}
     peerDependencies:
@@ -845,6 +862,12 @@ packages:
     engines: {node: '>=20.18.0'}
     peerDependencies:
       typescript: '>=5'
+
+  '@solana/react@2.0.0':
+    resolution: {integrity: sha512-cCXgDER9l11RhcashbsfOdC0bXMexiNoQaIi/RFNe582hmdde+I8Z2P8g8/7AR91yEYf2q+v00OHwYntr+klPQ==}
+    engines: {node: '>=20.18.0'}
+    peerDependencies:
+      react: '>=18'
 
   '@solana/rpc-api@2.0.0':
     resolution: {integrity: sha512-1FwitYxwADMF/6zKP2kNXg8ESxB6GhNBNW1c4f5dEmuXuBbeD/enLV3WMrpg8zJkIaaYarEFNbt7R7HyFzmURQ==}
@@ -954,6 +977,10 @@ packages:
     engines: {node: '>=20.18.0'}
     peerDependencies:
       typescript: '>=5'
+
+  '@solana/wallet-standard-features@1.2.0':
+    resolution: {integrity: sha512-tUd9srDLkRpe1BYg7we+c4UhRQkq+XQWswsr/L1xfGmoRDF47BPSXf4zE7ZU2GRBGvxtGt7lwJVAufQyQYhxTQ==}
+    engines: {node: '>=16'}
 
   '@solana/web3.js@2.0.0':
     resolution: {integrity: sha512-x+ZRB2/r5tVK/xw8QRbAfgPcX51G9f2ifEyAQ/J5npOO+6+MPeeCjtr5UxHNDAYs9Ypo0PN+YJATCO4vhzQJGg==}
@@ -3108,6 +3135,10 @@ snapshots:
 
   '@rushstack/eslint-patch@1.10.4': {}
 
+  '@solana-program/system@0.6.2(@solana/web3.js@2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.6.3)(ws@8.18.0))':
+    dependencies:
+      '@solana/web3.js': 2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.6.3)(ws@8.18.0)
+
   '@solana-program/token-2022@0.3.1(@solana/web3.js@2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.6.3)(ws@8.18.0))':
     dependencies:
       '@solana/web3.js': 2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.6.3)(ws@8.18.0)
@@ -3231,6 +3262,24 @@ snapshots:
   '@solana/promises@2.0.0(typescript@5.6.3)':
     dependencies:
       typescript: 5.6.3
+
+  '@solana/react@2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(react@19.0.0-rc-66855b96-20241106)(typescript@5.6.3)':
+    dependencies:
+      '@solana/addresses': 2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.6.3)
+      '@solana/errors': 2.0.0(typescript@5.6.3)
+      '@solana/keys': 2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.6.3)
+      '@solana/promises': 2.0.0(typescript@5.6.3)
+      '@solana/signers': 2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.6.3)
+      '@solana/transactions': 2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.6.3)
+      '@solana/wallet-standard-features': 1.2.0
+      '@wallet-standard/base': 1.1.0
+      '@wallet-standard/errors': 0.1.0
+      '@wallet-standard/ui': 1.0.0
+      '@wallet-standard/ui-registry': 1.0.0
+      react: 19.0.0-rc-66855b96-20241106
+    transitivePeerDependencies:
+      - fastestsmallesttextencoderdecoder
+      - typescript
 
   '@solana/rpc-api@2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.6.3)':
     dependencies:
@@ -3430,6 +3479,11 @@ snapshots:
       typescript: 5.6.3
     transitivePeerDependencies:
       - fastestsmallesttextencoderdecoder
+
+  '@solana/wallet-standard-features@1.2.0':
+    dependencies:
+      '@wallet-standard/base': 1.1.0
+      '@wallet-standard/features': 1.1.0
 
   '@solana/web3.js@2.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.6.3)(ws@8.18.0)':
     dependencies:

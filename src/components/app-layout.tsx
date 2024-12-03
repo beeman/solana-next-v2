@@ -1,4 +1,5 @@
 import { ChainChecker, ChainSelect } from '@/components/chain-select'
+import { Toaster } from '@/components/ui/toaster'
 import { ConnectWalletMenu } from '@/components/wallet'
 import Link from 'next/link'
 import { ReactNode } from 'react'
@@ -22,6 +23,7 @@ export function AppLayout({ children, links }: { children: ReactNode; links: { l
         </main>
         <AppFooter />
       </div>
+      <Toaster />
     </ThemeProvider>
   )
 }

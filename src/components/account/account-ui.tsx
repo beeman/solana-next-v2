@@ -10,6 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { useSolanaChain, useSolanaWallet, useSolanaWalletAddress } from '@/solana'
 import { Address, address as addressUtil } from '@solana/web3.js'
 import { useQueryClient } from '@tanstack/react-query'
+import { UiWalletAccount } from '@wallet-standard/react'
 import { RefreshCw } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
@@ -70,12 +71,17 @@ export function AccountButtons({ address }: { address: Address }) {
   const [airdropOpen, setAirdropOpen] = useState(false)
   const [receiveOpen, setReceiveOpen] = useState(false)
   const [sendOpen, setSendOpen] = useState(false)
+  const [account] = useSolanaWallet()
+
+  const canSend = address && account?.features.includes('solana:signAndSendTransaction')
 
   return (
     <div className="flex gap-2 whitespace-nowrap">
       {isMainnet ? null : <ModalAirdrop address={address} open={airdropOpen} setOpen={setAirdropOpen} />}
       <ModalReceive address={address} open={receiveOpen} setOpen={setReceiveOpen} />
-      <ModalSend address={address} open={sendOpen} setOpen={setSendOpen} />
+      {account && canSend ? (
+        <ModalSend address={address} open={sendOpen} setOpen={setSendOpen} account={account} />
+      ) : null}
     </div>
   )
 }
@@ -317,13 +323,22 @@ function ModalAirdrop({
   )
 }
 
-function ModalSend({ open, setOpen, address }: { setOpen: (open: boolean) => void; open: boolean; address: Address }) {
-  const [wallet] = useSolanaWallet()
-  const mutation = useTransferSol({ address })
+function ModalSend({
+  account,
+  address,
+  open,
+  setOpen,
+}: {
+  account: UiWalletAccount
+  address: Address
+  open: boolean
+  setOpen: (open: boolean) => void
+}) {
+  const mutation = useTransferSol({ address, account })
   const [destination, setDestination] = useState('')
   const [amount, setAmount] = useState('1')
 
-  const canSend = address && wallet?.features.includes('solana:signAndSendTransaction')
+  const canSend = address && account?.features.includes('solana:signAndSendTransaction')
 
   return (
     <AppModal

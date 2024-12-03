@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { DropdownMenuSeparator } from '@/components/ui/dropdown-menu'
 import { useToast } from '@/hooks/use-toast'
+import { useToastError } from '@/hooks/use-toast-error'
 import { UiWallet, UiWalletAccount, useDisconnect, useWallets } from '@wallet-standard/react'
 import { Copy, LogOut } from 'lucide-react'
 import { WalletAccountIcon } from './wallet-account-icon'
@@ -23,6 +24,7 @@ export function ConnectedWalletContent({
   setOpen,
 }: ConnectedWalletContentProps) {
   const { toast } = useToast()
+  const toastError = useToastError()
 
   // Get fresh wallet instances
   const wallets = useWallets()
@@ -38,7 +40,7 @@ export function ConnectedWalletContent({
     e.preventDefault()
     try {
       if (!currentWallet) {
-        toast({ variant: 'destructive', title: 'Wallet not found' })
+        toastError('Wallet not found')
         return
       }
       await disconnect()
@@ -46,7 +48,7 @@ export function ConnectedWalletContent({
       setOpen(false)
     } catch (error) {
       onError(error)
-      toast({ variant: 'destructive', title: 'Failed to disconnect wallet' })
+      toastError('Failed to disconnect wallet')
     }
   }
 

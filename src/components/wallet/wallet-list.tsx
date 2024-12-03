@@ -72,14 +72,14 @@ export function WalletList({
   if (variant === 'dialog') {
     return (
       <div className="space-y-2">
-        {standardWallets.map((wallet) => (
+        {standardWallets.map((wallet, idx) => (
           <ErrorBoundary
             fallbackRender={({ error }) => (
               <div className="p-2">
                 <UnconnectableWalletMenuItem error={error} wallet={wallet} />
               </div>
             )}
-            key={`wallet:${wallet.name}`}
+            key={`wallet:${wallet.name}-${idx}`}
           >
             <WalletButton wallet={wallet} onAccountSelect={onAccountSelect} onError={onError} setOpen={setOpen} />
           </ErrorBoundary>
