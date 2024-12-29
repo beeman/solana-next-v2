@@ -1,4 +1,4 @@
-import { ExplorerLink } from '@/components/chain-select'
+import { ExplorerLink } from '@/components/explorer-link'
 import { useToast } from '@/hooks/use-toast'
 
 export function useToastTransaction() {

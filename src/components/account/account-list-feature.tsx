@@ -1,10 +1,10 @@
 'use client'
 
 import { AppHero } from '@/components/app-layout'
-import { ConnectWalletMenu } from '@/components/wallet'
-import { useSolanaWallet } from '@/solana'
+import { useSolanaWallet } from '@wallet-ui/react'
 
 import { redirect } from 'next/navigation'
+import { ConnectWalletMenu } from '../wallet-ui'
 
 export default function AccountListFeature() {
   const [selectedWallet] = useSolanaWallet()

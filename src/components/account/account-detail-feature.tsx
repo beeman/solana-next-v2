@@ -1,8 +1,8 @@
 'use client'
 
 import { AppHero } from '@/components/app-layout'
-import { ExplorerLink } from '@/components/chain-select'
 import { ellipsify } from '@/components/ellipsify'
+import { ExplorerLink } from '@/components/explorer-link'
 import { address as addressFn } from '@solana/web3.js'
 import { useParams } from 'next/navigation'
 import { useMemo } from 'react'

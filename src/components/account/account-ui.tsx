@@ -1,16 +1,16 @@
 'use client'
 
 import { AppModal } from '@/components/app-layout'
-import { ExplorerLink } from '@/components/chain-select'
 import { ellipsify } from '@/components/ellipsify'
+import { ExplorerLink } from '@/components/explorer-link'
 import { Alert } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { useSolanaChain, useSolanaWallet, useSolanaWalletAddress } from '@/solana'
 import { Address, address as addressUtil } from '@solana/web3.js'
 import { useQueryClient } from '@tanstack/react-query'
 import { UiWalletAccount } from '@wallet-standard/react'
+import { useSolanaChain, useSolanaWallet, useSolanaWalletAddress } from '@wallet-ui/react'
 import { RefreshCw } from 'lucide-react'
 import { useMemo, useState } from 'react'
 

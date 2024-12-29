@@ -28,6 +28,8 @@
     "@tanstack/react-query-next-experimental": "^5.61.0",
     "@wallet-standard/core": "^1.1.0",
     "@wallet-standard/react": "^1.0.0",
+    "@wallet-ui/core": "1.0.0",
+    "@wallet-ui/react": "1.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.11.17",

@@ -1,12 +1,13 @@
-import { ChainChecker, ChainSelect } from '@/components/chain-select'
+import { ChainChecker } from '@/components/chain-checker'
+import { ChainSelect } from '@/components/chain-select'
 import { Toaster } from '@/components/ui/toaster'
-import { ConnectWalletMenu } from '@/components/wallet'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 import { ThemeProvider } from './theme-provider'
 import { ThemeToggle } from './theme-toggle'
 import { Button } from './ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from './ui/dialog'
+import { ConnectWalletMenu } from './wallet-ui'
 
 export function AppLayout({ children, links }: { children: ReactNode; links: { label: string; path: string }[] }) {
   return (

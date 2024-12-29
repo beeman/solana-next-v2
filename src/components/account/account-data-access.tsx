@@ -2,13 +2,11 @@
 
 import { useToastError } from '@/hooks/use-toast-error'
 import { useToastTransaction } from '@/hooks/use-toast-transaction'
-import { SolanaRpc, useSolanaChain, useSolanaRpc } from '@/solana'
 import { getTransferSolInstruction } from '@solana-program/system'
 import { TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
 import { TOKEN_2022_PROGRAM_ADDRESS } from '@solana-program/token-2022'
 import { useWalletAccountTransactionSendingSigner } from '@solana/react'
 import type { Blockhash } from '@solana/rpc-types'
-import { TransactionSendingSigner } from '@solana/signers'
 import {
   address,
   Address,
@@ -22,9 +20,12 @@ import {
   setTransactionMessageFeePayerSigner,
   setTransactionMessageLifetimeUsingBlockhash,
   signAndSendTransactionMessageWithSigners,
+  TransactionSendingSigner,
 } from '@solana/web3.js'
+
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { UiWalletAccount } from '@wallet-standard/react'
+import { SolanaRpc, useSolanaChain, useSolanaRpc } from '@wallet-ui/react'
 
 export function useGetBalance({ address }: { address: Address }) {
   const { chain } = useSolanaChain()
