@@ -35,7 +35,7 @@ export function AppHeader({ links = [] }: { links: { label: string; path: string
 
   return (
     <header className="relative z-50 px-4 py-2 bg-gray-100 dark:bg-gray-900 dark:text-gray-400">
-      <div className="flex justify-between items-center">
+      <div className="container mx-auto flex justify-between items-center">
         {/* Logo and Mobile Menu Button */}
         <div className="flex items-center gap-2">
           <Link className="text-xl hover:text-gray-500 dark:hover:text-white" href="/">
@@ -52,28 +52,29 @@ export function AppHeader({ links = [] }: { links: { label: string; path: string
         </div>
 
         {/* Desktop Navigation */}
-        <ul className="hidden md:flex gap-4 flex-nowrap items-center">
-          {links.map(({ label, path }) => (
-            <li key={path}>
-              <Link className="hover:text-gray-500 dark:hover:text-white" href={path}>
-                {label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="hidden md:flex items-center gap-8">
+          <ul className="flex gap-4 flex-nowrap items-center">
+            {links.map(({ label, path }) => (
+              <li key={path}>
+                <Link className="hover:text-gray-500 dark:hover:text-white" href={path}>
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-        {/* Desktop Actions */}
-        <div className="hidden md:flex items-center gap-4">
-          <ConnectWalletMenu>Connect Wallet</ConnectWalletMenu>
-          <ChainSelect />
-          <ThemeToggle />
+          {/* Desktop Actions */}
+          <div className="flex items-center gap-4">
+            <ConnectWalletMenu>Connect Wallet</ConnectWalletMenu>
+            <ChainSelect />
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* Mobile Menu */}
         {isOpen && (
           <div className="md:hidden fixed inset-x-0 top-[57px] bottom-0 bg-gray-100/95 dark:bg-gray-900/95 backdrop-blur-sm">
             <div className="flex flex-col p-4 gap-4 border-t dark:border-gray-800">
-              {/* Mobile Navigation */}
               <ul className="flex flex-col gap-4">
                 {links.map(({ label, path }) => (
                   <li key={path}>
@@ -87,8 +88,6 @@ export function AppHeader({ links = [] }: { links: { label: string; path: string
                   </li>
                 ))}
               </ul>
-
-              {/* Mobile Actions */}
               <div className="flex flex-col gap-4">
                 <ConnectWalletMenu>Connect Wallet</ConnectWalletMenu>
                 <ChainSelect />
@@ -139,8 +138,6 @@ export function AppHero({
     </div>
   )
 }
-
-
 
 export function AppModal({
   children,
