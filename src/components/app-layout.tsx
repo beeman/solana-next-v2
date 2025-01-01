@@ -36,20 +36,22 @@ export function AppHeader({ links = [] }: { links: { label: string; path: string
   return (
     <header className="relative z-50 px-4 py-2 bg-gray-100 dark:bg-gray-900 dark:text-gray-400">
       <div className="container mx-auto flex justify-between items-center">
-        {/* Logo and Mobile Menu Button */}
+        {/* Logo */}
         <div className="flex items-center gap-2">
           <Link className="text-xl hover:text-gray-500 dark:hover:text-white" href="/">
             <span>Placeholder</span>
           </Link>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </Button>
         </div>
+
+        {/* Mobile Menu Button - Moved to the right */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="md:hidden ml-auto"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </Button>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
