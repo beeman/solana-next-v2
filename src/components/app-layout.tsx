@@ -36,41 +36,41 @@ export function AppHeader({ links = [] }: { links: { label: string; path: string
   return (
     <header className="relative z-50 px-4 py-2 bg-gray-100 dark:bg-gray-900 dark:text-gray-400">
       <div className="container mx-auto flex justify-between items-center">
-        {/* Logo */}
-        <div className="flex items-center gap-2">
+        {/* Logo and Navigation Links */}
+        <div className="flex items-center gap-4">
           <Link className="text-xl hover:text-gray-500 dark:hover:text-white" href="/">
             <span>Placeholder</span>
           </Link>
+          
+          {/* Desktop Navigation - Moved inside the left section */}
+          <div className="hidden md:flex items-center">
+            <ul className="flex gap-4 flex-nowrap items-center">
+              {links.map(({ label, path }) => (
+                <li key={path}>
+                  <Link className="hover:text-gray-500 dark:hover:text-white" href={path}>
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
-        {/* Mobile Menu Button - Moved to the right */}
+        {/* Mobile Menu Button */}
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden ml-auto"
+          className="md:hidden"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </Button>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
-          <ul className="flex gap-4 flex-nowrap items-center">
-            {links.map(({ label, path }) => (
-              <li key={path}>
-                <Link className="hover:text-gray-500 dark:hover:text-white" href={path}>
-                  {label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
-          {/* Desktop Actions */}
-          <div className="flex items-center gap-4">
-            <ConnectWalletMenu>Connect Wallet</ConnectWalletMenu>
-            <ChainSelect />
-            <ThemeToggle />
-          </div>
+        {/* Desktop Actions */}
+        <div className="hidden md:flex items-center gap-4">
+          <ConnectWalletMenu>Connect Wallet</ConnectWalletMenu>
+          <ChainSelect />
+          <ThemeToggle />
         </div>
 
         {/* Mobile Menu */}
