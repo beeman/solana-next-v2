@@ -5,6 +5,7 @@ import { ChainSelect } from '@/components/chain-select'
 import { Toaster } from '@/components/ui/toaster'
 import { Menu, X } from 'lucide-react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { ReactNode, useState } from 'react'
 import { ThemeProvider } from './theme-provider'
 import { ThemeToggle } from './theme-toggle'
@@ -31,23 +32,24 @@ export function AppLayout({ children, links }: { children: ReactNode; links: { l
 }
 
 export function AppHeader({ links = [] }: { links: { label: string; path: string }[] }) {
-  const [isOpen, setIsOpen] = useState(false)
+  const pathname = usePathname()
+  const [showMenu, setShowMenu] = useState(false)
 
   return (
     <header className="relative z-50 px-4 py-2 bg-gray-100 dark:bg-gray-900 dark:text-gray-400">
-      <div className="container mx-auto flex justify-between items-center">
-        {/* Logo and Navigation Links */}
-        <div className="flex items-center gap-4">
+      <div className="mx-auto flex justify-between items-center">
+        <div className="flex items-baseline gap-4">
           <Link className="text-xl hover:text-gray-500 dark:hover:text-white" href="/">
             <span>Placeholder</span>
           </Link>
-          
-          {/* Desktop Navigation - Moved inside the left section */}
           <div className="hidden md:flex items-center">
             <ul className="flex gap-4 flex-nowrap items-center">
               {links.map(({ label, path }) => (
                 <li key={path}>
-                  <Link className="hover:text-gray-500 dark:hover:text-white" href={path}>
+                  <Link
+                    className={`hover:text-gray-500 dark:hover:text-white ${pathname?.startsWith(path) ? 'text-gray-500 dark:text-white' : ''}`}
+                    href={path}
+                  >
                     {label}
                   </Link>
                 </li>
@@ -56,26 +58,18 @@ export function AppHeader({ links = [] }: { links: { label: string; path: string
           </div>
         </div>
 
-        {/* Mobile Menu Button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="md:hidden"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setShowMenu(!showMenu)}>
+          {showMenu ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </Button>
 
-        {/* Desktop Actions */}
         <div className="hidden md:flex items-center gap-4">
           <ConnectWalletMenu>Connect Wallet</ConnectWalletMenu>
           <ChainSelect />
           <ThemeToggle />
         </div>
 
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div className="md:hidden fixed inset-x-0 top-[57px] bottom-0 bg-gray-100/95 dark:bg-gray-900/95 backdrop-blur-sm">
+        {showMenu && (
+          <div className="md:hidden fixed inset-x-0 top-[52px] bottom-0 bg-gray-100/95 dark:bg-gray-900/95 backdrop-blur-sm">
             <div className="flex flex-col p-4 gap-4 border-t dark:border-gray-800">
               <ul className="flex flex-col gap-4">
                 {links.map(({ label, path }) => (
@@ -83,7 +77,7 @@ export function AppHeader({ links = [] }: { links: { label: string; path: string
                     <Link
                       className="hover:text-gray-500 dark:hover:text-white block text-lg py-2"
                       href={path}
-                      onClick={() => setIsOpen(false)}
+                      onClick={() => setShowMenu(false)}
                     >
                       {label}
                     </Link>
